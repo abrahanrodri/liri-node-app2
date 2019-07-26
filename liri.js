@@ -60,7 +60,7 @@ function searchSpotify() {
         word2 = "madonna";
         searchSpotify(word2);
     } else {
-        artistName = word2;
+        songName = word2;
         searchSpotify(word2);
 
         var jsonData=response.data;
