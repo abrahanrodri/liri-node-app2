@@ -1,0 +1,37 @@
+
+***********************DATA********************************
+Command: movie-this
+Search: 
+Title: Mr. Nobody
+Year Released: 2009
+IMDD Rating: 7.8/10
+Rotten Tomatoes Rating: 67%
+Countries where the movie was produced: Belgium, Germany, Canada, France, USA, UK
+Language: English, Mohawk
+Plot: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible.
+Actors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham
+ 
+***********************DATA********************************
+Command: movie-this
+Search: aquaman
+Title: Aquaman
+Year Released: 2018
+IMDD Rating: 7.1/10
+Rotten Tomatoes Rating: 65%
+Countries where the movie was produced: Australia, USA
+Language: English, Russian, Maori, Italian
+Plot: Arthur Curry, the human-born heir to the underwater kingdom of Atlantis, goes on a quest to prevent a war between the worlds of ocean and land.
+Actors: Jason Momoa, Amber Heard, Willem Dafoe, Patrick Wilson
+ 
+***********************DATA********************************
+Command: movie-this
+Search: aquaman
+Title: Aquaman
+Year Released: 2018
+IMDD Rating: 7.1/10
+Rotten Tomatoes Rating: 65%
+Countries where the movie was produced: Australia, USA
+Language: English, Russian, Maori, Italian
+Plot: Arthur Curry, the human-born heir to the underwater kingdom of Atlantis, goes on a quest to prevent a war between the worlds of ocean and land.
+Actors: Jason Momoa, Amber Heard, Willem Dafoe, Patrick Wilson
+ 

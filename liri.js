@@ -1,104 +1,181 @@
 require("dotenv").config();
-var keys = require("./keys.js");
-var spotify = require('node-spotify-api');
-var axios = require('axios');
+var keys = require('./keys');
+var request = require('request');
+var Spotify = require('node-spotify-api')
+var spotify = new Spotify(keys.spotify);
 var moment = require('moment');
-var dotevn = require('dotenv');
 var fs = require('fs');
 
-var spotify = new Spotify(keys.spotify);
-
 var word1 = process.argv[2];
-var word2 = process.argv.slice(3).join(" ");
+var word2 = process.argv.slice(3).join("+");
 
-
-
-switch (word1) {
-    case "concert-this":
-        searchBands();
-        break;
-    case "spotify-this-song":
-        searchSpotify();
-        break;
-    case "movie-this":
-        searchOMDB();
-        break;
-    case "do-what-it-says":
-        logDo();
-        break;
-    default:
-        console.log("I have never heard of that...");
-}
-
-
-function searchBands() {
-    if (word2 === undefined) {
-        word2 = "drake";
-        searchBands(word2);
-    } else {
-        artistName = word2;
-        searchBands(word2);
+function switchCase() {
+    switch (word1) {
+        case "spotify-this-song":
+            searchSpotify();
+            break;
+        case "concert-this":
+            searchBands();
+            break;
+        case "movie-this":
+            searchOMDB();
+            break;
     }
-
-    var artistName = word2;
-    var queryUrl = "https://rest.bandsintown.com/artists/" + artistName + "/events?app_id=codingbootcamp";
-
-    axios.get(queryUrl)
-        .then(function (response) {
-
-            var jsonData = response.data;
-            console.log("Name of the venue: " + jsonData[i].venue.name);
-            console.log("Venue location: " + jsonData[i].venue.country + jsonData[i].venue.city);
-            console.log("Date of the event: " + moment(jsonData[i].venue.datetime).format('MM/DD/YYYY'));
-        }
-
-        )
 }
 
 function searchSpotify() {
-    if (word2 === undefined) {
-        word2 = "madonna";
-        searchSpotify(word2);
-    } else {
-        songName = word2;
-        searchSpotify(word2);
+    var songName = word2
 
-        var jsonData=response.data;
-        console.log("Arist(s) on song: " + jsonData);
-        console.log("The song's name: " + jsonData);
-        console.log("A preview link of the song from Spotify: " + jsonData);
-        console.log("The album that the song is from: " + jsonData);
+    if (songName == "") {
+        spotify.search({ type: 'track', query: "The Sign Ace of Base", limit: 1 }, function (err, data) {
+            if (err) {
+                console.log('Error occurred: ' + err);
+            }
+            var artist = data.tracks.items[0].album.artists[0].name
+            var title = data.tracks.items[0].name
+            var link = data.tracks.items[0].album.external_urls.spotify
+            var album = data.tracks.items[0].album.name
+
+            console.log("YOU DIDN'T ENTER ANYTHING, DEFAULTING TO THE GREATEST SONG EVER!")
+            console.log("Artist: " + artist);
+            console.log("Song Title: " + title);
+            console.log("Preview Link: " + link);
+            console.log("Album: " + album)
+
+            fs.appendFile("log.txt", "***********************DATA********************************" + 
+            "\nCommand: " + word1 + 
+            "\nSearch: " + songName + 
+            "\nArtist: " + artist + 
+            "\nSong Title: " + title + 
+            "\nPreview Link: " + link + 
+            "\n ", function (err) {
+                if (err) {
+                    return console.log(err);
+                }
+            })
+        });
+    }
+    else {
+        spotify.search({ type: 'track', query: songName, limit: 1 }, function (err, data) {
+            if (err) {
+                console.log('Error occurred: ' + err);
+            }
+            var artist = data.tracks.items[0].album.artists[0].name
+            var title = data.tracks.items[0].name
+            var link = data.tracks.items[0].album.external_urls.spotify
+            var album = data.tracks.items[0].album.name
+            console.log("Artist: " + artist);
+            console.log("Song Title: " + title);
+            console.log("Preview Link: " + link);
+            console.log("Album: " + album)
+
+            fs.appendFile("log.txt", "***********************DATA********************************" + 
+            "\nCommand: " + word1 + 
+            "\nSearch: " + songName + 
+            "\nArtist: " + artist + 
+            "\nSong Title: " + title + 
+            "\nPreview Link: " + link + 
+            "\n ", function (err) {
+                if (err) {
+                    return console.log(err);
+                }
+            });
+        });
     }
 }
+
+function searchBands() {
+
+    var bandName = word2
+    var queryUrl = "https://rest.bandsintown.com/artists/" + bandName + "/events?app_id=codingbootcamp"
+
+    request(queryUrl, function (err, response, data) {
+        if (err && response.statusCode != 200) {
+            console.log('error:', err);
+            console.log('statusCode:', response && response.statusCode);
+        }
+
+        var jsonDat = JSON.parse(data);
+
+        for (i = 0; i < jsonDat.length; i++) {
+            var venue = jsonDat[i].venue.name
+            var region = jsonDat[i].venue.region
+            var country = jsonDat[i].venue.country
+            var city = jsonDat[i].venue.city
+
+            console.log("Venue: " + venue)
+
+            if (region === "") {
+                console.log("Location: " + city + ", " + country)
+            }
+            else {
+                console.log("Location: " + city + ", " + region)
+            }
+            console.log("Date: " + moment(jsonDat[i].datetime).format('L'));
+            console.log("***********************************************************")
+        };
+    });
+};
 
 function searchOMDB() {
-    if (word2 === undefined) {
-        word2 = "the+avengers";
-        searchOMDB(word2);
-    } else {
-        movieName = word2;
-        searchOMDB(word2);
+    var movie = word2;
+    var queryUrl = "http://www.omdbapi.com/?apikey=trilogy&t=" + movie + "";
+
+    if (queryUrl === "http://www.omdbapi.com/?apikey=trilogy&t=") {
+        queryUrl = "http://www.omdbapi.com/?apikey=trilogy&t=Mr.+Nobody";
     }
 
-    axios.get("http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=40e9cece")
-        .then(function (response) {
-
-            var jsonData = response.data;
-            console.log("Title of the movie: " + jsonData.title);
-            console.log("Year the movie came out: " + jsonData.Year);
-            console.log("IMDB Rating of the movie: " + jsonData.imdbRating);
-            console.log("Rotten Tomatoes Rating of the movie: " + jsonData.ratings);
-            console.log("Country where the movie was produced: " + jsonData.Country);
-            console.log(" Language of the movie: " + jsonData.Language);
-            console.log("Plot of the movie: " + jsonData.Plot);
-            console.log("Actors in the movie: " + jsonData.Actors);
+    request(queryUrl, function (err, response, data) {
+        if (err) {
+            console.log('error:', err);
+            console.log('statusCode:', response);
         }
-        )
-}
+        
+        var jsonData = JSON.parse(data);
+        console.log("***********************DATA********************************")
+        console.log("Title: " + jsonData.Title);
+        console.log("Year Released: " + jsonData.Year);
+        console.log("IMDD Rating: " + jsonData.Ratings[0].Value);
+        console.log("Rotten Tomatoes Rating: " + jsonData.Ratings[1].Value);
+        console.log("Countries where the movie was produced: " + jsonData.Country);
+        console.log("Language: " + jsonData.Language);
+        console.log("Plot: " + jsonData.Plot);
+        console.log("Actors: " + jsonData.Actors);
 
-function logDo() {
-    fs.readFile('random.txt', 'Hello content!', function (err) {
-        if (err) throw err;
-        console.log('Saved!');
+        fs.appendFile("log.txt", 
+        "\n***********************DATA********************************" + 
+        "\nCommand: " + word1 + 
+        "\nSearch: " + movie + 
+        "\nTitle: " + jsonData.Title + 
+        "\nYear Released: " + jsonData.Year + 
+        "\nIMDD Rating: " + jsonData.Ratings[0].Value + 
+        "\nRotten Tomatoes Rating: " + jsonData.Ratings[1].Value + 
+        "\nCountries where the movie was produced: " + jsonData.Country + 
+        "\nLanguage: " + jsonData.Language + "\nPlot: " + jsonData.Plot + 
+        "\nActors: " + jsonData.Actors + 
+        "\n ", 
+        function (err) {
+            if (err) {
+                return console.log(err);
+            }
+        });
+
     })
 }
+
+switch (word1) {
+    case "do-what-it-says":
+        fs.readFile("random.txt", "utf8", function (err, data) {
+            if (err) {
+                return console.log(err);
+            }
+            var dataArr = data.split(",");
+            word1 = dataArr[0];
+            word2 = dataArr[1].replace(/"/g, "");
+            switchCase();
+        })
+        break;
+}
+
+switchCase();
+
