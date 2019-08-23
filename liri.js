@@ -27,7 +27,10 @@ function searchSpotify() {
     var songName = word2
 
     if (songName == "") {
-        spotify.search({ type: 'track', query: "The Sign Ace of Base", limit: 1 }, function (err, data) {
+        spotify.search({ 
+            type: 'track', 
+            query: "Happy"
+        }, function (err, data) {
             if (err) {
                 console.log('Error occurred: ' + err);
             }
@@ -36,7 +39,7 @@ function searchSpotify() {
             var link = data.tracks.items[0].album.external_urls.spotify
             var album = data.tracks.items[0].album.name
 
-            console.log("YOU DIDN'T ENTER ANYTHING, DEFAULTING TO THE GREATEST SONG EVER!")
+            console.log("try ")
             console.log("Artist: " + artist);
             console.log("Song Title: " + title);
             console.log("Preview Link: " + link);
