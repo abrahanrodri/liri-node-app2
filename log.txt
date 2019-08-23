@@ -35,3 +35,31 @@ Language: English, Russian, Maori, Italian
 Plot: Arthur Curry, the human-born heir to the underwater kingdom of Atlantis, goes on a quest to prevent a war between the worlds of ocean and land.
 Actors: Jason Momoa, Amber Heard, Willem Dafoe, Patrick Wilson
  
+***********************DATA********************************
+Command: movie-this
+Search: justice+league
+Title: Justice League
+Year Released: 2017
+IMDD Rating: 6.4/10
+Rotten Tomatoes Rating: 40%
+Countries where the movie was produced: USA, Canada, UK
+Language: English, Irish, Russian, Icelandic
+Plot: Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists the help of his new-found ally, Diana Prince, to face an even greater enemy.
+Actors: Ben Affleck, Henry Cavill, Amy Adams, Gal Gadot
+ 
+***********************DATA********************************
+Command: concert-this
+Search: tame+impala
+Venue: The Anthem
+Region: DC
+Country: United States
+City: Washington
+ 
+***********************DATA********************************
+Command: concert-this
+Search: tyler+the+creator
+Venue: Bay Dreams South Festival
+City: Nelson
+Region: 
+Country: New Zealand
+ 

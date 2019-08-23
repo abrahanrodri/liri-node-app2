@@ -59,7 +59,10 @@ function searchSpotify() {
         });
     }
     else {
-        spotify.search({ type: 'track', query: songName, limit: 1 }, function (err, data) {
+        spotify.search({ 
+            type: 'track', 
+            query: songName 
+        }, function (err, data) {
             if (err) {
                 console.log('Error occurred: ' + err);
             }
@@ -117,6 +120,20 @@ function searchBands() {
             console.log("Date: " + moment(jsonDat[i].datetime).format('L'));
             console.log("***********************************************************")
         };
+        fs.appendFile("log.txt", 
+        "\n***********************DATA********************************" + 
+        "\nCommand: " + word1 + 
+        "\nSearch: " + word2 + 
+        "\nVenue: " + venue + 
+        "\nCity: " + city + 
+        "\nRegion: " + region + 
+        "\nCountry: " + country +  
+        "\n ", 
+        function (err) {
+            if (err) {
+                return console.log(err);
+            }
+        });
     });
 };
 
